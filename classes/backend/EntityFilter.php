@@ -81,55 +81,6 @@ class EntityFilter extends \Backend
         );
     }
 
-    public static function getExistingFilters(\DataContainer $objDc, $objWidget)
-    {
-        if (!($strTable = $objDc->table) || !($strField = $objDc->field))
-        {
-            return array();
-        }
-
-        $arrDca = $GLOBALS['TL_DCA'][$strTable]['fields'][$objDc->field];
-
-
-        if (isset($arrDca['eval']['listWidget']['table']))
-        {
-            // build query
-            $strFilter = $arrDca['eval']['listWidget']['filterField'];
-
-            if (is_array($arrDca['eval']['listWidget']['fields']) && !empty($arrListDca['eval']['listWidget']['fields']))
-            {
-                $strFields = implode(',', $arrListDca['eval']['listWidget']['fields']);
-            }
-            else
-            {
-                $strFields = '*';
-            }
-
-            $strQuery = 'SELECT ' . $strFields . ' FROM ' . $arrListDca['eval']['listWidget']['table'] . ' WHERE ';
-            list($strWhere, $arrValues) = \HeimrichHannot\EntityFilter\EntityFilter::computeSqlCondition(
-                deserialize($objDc->activeRecord->{$strFilter}, true)
-            );
-
-            // get items
-            $objItems = \Database::getInstance()->prepare($strQuery . $strWhere)->execute($arrValues);
-            $arrItems = array();
-
-            if ($objItems !== null)
-            {
-                while ($objItems->next())
-                {
-                    $arrItems[] = $objItems->row();
-                }
-            }
-
-            return $arrItems;
-        }
-        else
-        {
-            throw new \Exception("No 'table' set in $objDc->table.$objDc->field's eval array.");
-        }
-    }
-
     public static function getItems(\DataContainer $objDc, $objWidget)
     {
         if (!($strTable = $objDc->table) || !($strField = $objDc->field))

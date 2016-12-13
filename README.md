@@ -41,7 +41,9 @@ _Note: Of course, you can also copy these 3 functions and customize them if they
     // the dca where the field values are situated you want to copy (usually the same as your dca)
     'tl_recipient_list',
     // the entity_filter field
-    'memberConditions'
+    'memberConditions',
+    // a custom options_callback -> if left out, array('HeimrichHannot\FieldValueCopier\Backend\FieldValueCopier', 'getOptions') is used
+    array('Namespace\SomeClass', 'getOptions')
 );
 ```
 
