@@ -1,0 +1,40 @@
+.entity-filter .row .form-group.connective_1 {
+  opacity: 0;
+}
+.entity-filter .row .form-group [id*="ctrl_bracketLeft"].tl_checkbox_single_container,
+.entity-filter .row .form-group [id*="ctrl_bracketRight"].tl_checkbox_single_container {
+  margin-top: 16px;
+}
+.entity-filter .row .form-group[class*="bracketLeft"],
+.entity-filter .row .form-group[class*="bracketRight"] {
+  margin-top: 18px;
+}
+.entity-filter .row .form-group[class*="bracketLeft"] label,
+.entity-filter .row .form-group[class*="bracketRight"] label {
+  padding: 2px 7px 5px 7px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  color: #555;
+  cursor: pointer;
+  line-height: 1;
+  text-shadow: 1px 1px 0 #eee;
+  background: #eee;
+  background-image: -moz-linear-gradient(bottom, #ccc 0%, #eee 60%);
+  background-image: -webkit-linear-gradient(bottom, #ccc 0%, #eee 60%);
+  background-image: -o-linear-gradient(bottom, #ccc 0%, #eee 60%);
+  background-image: -ms-linear-gradient(bottom, #ccc 0%, #eee 60%);
+  background-image: linear-gradient(to top, #ccc 0%, #eee 60%);
+}
+.entity-filter .row .form-group[class*="bracketLeft"] input,
+.entity-filter .row .form-group[class*="bracketRight"] input {
+  display: none;
+}
+.entity-filter .row .form-group[class*="bracketLeft"] input:checked + label,
+.entity-filter .row .form-group[class*="bracketRight"] input:checked + label {
+  background-image: -moz-linear-gradient(bottom, #ccc 0%, #ccc 60%);
+  background-image: -webkit-linear-gradient(bottom, #ccc 0%, #ccc 60%);
+  background-image: -o-linear-gradient(bottom, #ccc 0%, #ccc 60%);
+  background-image: -ms-linear-gradient(bottom, #ccc 0%, #ccc 60%);
+  background-image: linear-gradient(to top, #ccc 0%, #ccc 60%);
+  color: white;
+}

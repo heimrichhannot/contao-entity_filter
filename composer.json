@@ -1,0 +1,37 @@
+{
+    "name": "heimrichhannot/contao-entity_filter",
+    "description":"This module offers an input type for selecting one or more entities by comfortably 'clicking together' sql-like conditions.",
+    "keywords":["contao", "entity", "filter", "select", "selector"],
+    "type": "contao-module",
+    "homepage":"https://bitbucket.org/heimrichhannot/contao-entity_filter",
+    "license":"LGPL-3.0+",
+    "authors":[
+        {
+            "name":"Heimrich & Hannot",
+            "email":"digitales@heimrich-hannot.de",
+            "homepage":"http://www.heimrich-hannot.de",
+            "role":"Developer"
+        }
+    ],
+    "support":{
+        "issues":"https://bitbucket.org/heimrichhannot/contao-entity_filter/issues"
+    },
+    "require": {
+        "php": "~5.6 || ^7.0",
+        "contao/core": ">=3.5,<4-dev",
+        "heimrichhannot/contao-haste_plus": "^1.5",
+        "heimrichhannot/contao-multi_column_editor": "~1.0",
+        "heimrichhannot/contao-list_widget": "~1.0",
+        "heimrichhannot/contao-field_value_copier": "~1.0"
+    },
+    "autoload": {
+        "classmap": [""]
+    },
+    "extra": {
+        "contao": {
+            "sources": {
+                "": "system/modules/entity_filter"
+            }
+        }
+    }
+}
