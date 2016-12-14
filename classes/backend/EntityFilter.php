@@ -48,7 +48,7 @@ class EntityFilter extends \Backend
             'inputType' => 'listWidget',
             'eval'      => array(
                 'listWidget' => array(
-                    'items_callback'        => array('HeimrichHannot\EntityFilter\Backend\EntityFilter', 'getItems'),
+                    'items_callback'        => array('HeimrichHannot\EntityFilter\Backend\EntityFilter', 'getItemsForDca'),
                     'headerFields_callback' => array('HeimrichHannot\EntityFilter\Backend\EntityFilter', 'getHeaderFields'),
                     'filterField'           => $strFilterFieldname,
                     'fields'                => $arrFields,
@@ -81,14 +81,22 @@ class EntityFilter extends \Backend
         );
     }
 
-    public static function getItems(\DataContainer $objDc, $objWidget)
+    public static function getItemsForDca(\DataContainer $objDc)
     {
-        if (!($strTable = $objDc->table) || !($strField = $objDc->field))
+        return static::getItems($objDc->table, $objDc->field, $objDc->activeRecord);
+    }
+
+    public static function getItems($strTable, $strField, $objActiveRecord)
+    {
+        if (!$strTable || !$strField)
         {
             return array();
         }
 
-        $arrListDca = $GLOBALS['TL_DCA'][$strTable]['fields'][$objDc->field];
+        \Controller::loadDataContainer($strTable);
+        \System::loadLanguageFile($strTable);
+
+        $arrListDca = $GLOBALS['TL_DCA'][$strTable]['fields'][$strField];
 
         if (isset($arrListDca['eval']['listWidget']['table']))
         {
@@ -106,7 +114,7 @@ class EntityFilter extends \Backend
 
             $strQuery = 'SELECT ' . $strFields . ' FROM ' . $arrListDca['eval']['listWidget']['table'];
             list($strWhere, $arrValues) = \HeimrichHannot\EntityFilter\EntityFilter::computeSqlCondition(
-                deserialize($objDc->activeRecord->{$strFilter}, true)
+                deserialize($objActiveRecord->{$strFilter}, true)
             );
 
             // get items
@@ -125,7 +133,7 @@ class EntityFilter extends \Backend
         }
         else
         {
-            throw new \Exception("No 'table' set in $objDc->table.$objDc->field's eval array.");
+            throw new \Exception("No 'table' set in $strTable.$strField's eval array.");
         }
     }
 
