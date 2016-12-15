@@ -137,6 +137,39 @@ class EntityFilter extends \Backend
         }
     }
 
+    public static function countItems($strTable, $strField, $objActiveRecord)
+    {
+        if (!$strTable || !$strField)
+        {
+            return false;
+        }
+
+        \Controller::loadDataContainer($strTable);
+        \System::loadLanguageFile($strTable);
+
+        $arrListDca = $GLOBALS['TL_DCA'][$strTable]['fields'][$strField];
+
+        if (isset($arrListDca['eval']['listWidget']['table']))
+        {
+            // build query
+            $strFilter = $arrListDca['eval']['listWidget']['filterField'];
+
+            $strQuery = 'SELECT COUNT(*) AS count FROM ' . $arrListDca['eval']['listWidget']['table'];
+            list($strWhere, $arrValues) = \HeimrichHannot\EntityFilter\EntityFilter::computeSqlCondition(
+                deserialize($objActiveRecord->{$strFilter}, true)
+            );
+
+            // get items
+            $objItems = \Database::getInstance()->prepare($strQuery . ($strWhere ? ' WHERE ' . $strWhere : ''))->execute($arrValues);
+
+            return $objItems->count;
+        }
+        else
+        {
+            throw new \Exception("No 'table' set in $strTable.$strField's eval array.");
+        }
+    }
+
     public static function getHeaderFields(\DataContainer $objDc, $objWidget)
     {
         if (!($strTable = $objDc->table) || !($strField = $objDc->field))
