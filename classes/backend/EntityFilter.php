@@ -73,11 +73,11 @@ class EntityFilter extends \Backend
             'inputType' => 'fieldValueCopier',
             'eval'      => array(
                 'fieldValueCopier' => array(
-                    'table' => $strFieldTable,
-                    'field' => $strFieldname,
-                    'options_callback' => $arrOptionsCallback
-                )
-            )
+                    'table'            => $strFieldTable,
+                    'field'            => $strFieldname,
+                    'options_callback' => $arrOptionsCallback,
+                ),
+            ),
         );
     }
 
@@ -118,15 +118,24 @@ class EntityFilter extends \Backend
             );
 
             // get items
-            $objItems = \Database::getInstance()->prepare($strQuery . ($strWhere ? ' WHERE ' . $strWhere : ''))->execute($arrValues);
             $arrItems = array();
 
-            if ($objItems !== null)
+            try
             {
-                while ($objItems->next())
+                $strQuery = $strQuery . ($strWhere ? ' WHERE ' . $strWhere : '');
+
+                $objItems = \Database::getInstance()->prepare($strQuery)->execute($arrValues);
+                if ($objItems !== null)
                 {
-                    $arrItems[] = $objItems->row();
+                    while ($objItems->next())
+                    {
+                        $arrItems[] = $objItems->row();
+                    }
                 }
+            }
+            catch (\Exception $objException)
+            {
+                \Message::addError(sprintf($GLOBALS['TL_LANG']['MSC']['tl_entity_filter']['invalidSqlQuery'], $strQuery));
             }
 
             return $arrItems;
