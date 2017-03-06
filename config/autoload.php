@@ -12,18 +12,18 @@
 /**
  * Register the namespaces
  */
-ClassLoader::addNamespaces(array
-(
-	'HeimrichHannot',
-));
+ClassLoader::addNamespaces(
+    [
+	'HeimrichHannot',]
+);
 
 
 /**
  * Register the classes
  */
-ClassLoader::addClasses(array
-(
+ClassLoader::addClasses(
+    [
 	// Classes
 	'HeimrichHannot\EntityFilter\Backend\EntityFilter' => 'system/modules/entity_filter/classes/backend/EntityFilter.php',
-	'HeimrichHannot\EntityFilter\EntityFilter'         => 'system/modules/entity_filter/classes/EntityFilter.php',
-));
+	'HeimrichHannot\EntityFilter\EntityFilter'         => 'system/modules/entity_filter/classes/EntityFilter.php',]
+);

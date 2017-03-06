@@ -22,40 +22,40 @@ class EntityFilter extends \Backend
         \System::loadLanguageFile('tl_entity_filter');
         $arrDca = &$GLOBALS['TL_DCA'][$strParentTable];
 
-        $arrDca['fields'][$strName] = array(
+        $arrDca['fields'][$strName] = [
             'label'     => &$GLOBALS['TL_LANG'][$strParentTable][$strName],
             'exclude'   => true,
             'inputType' => 'multiColumnEditor',
-            'eval'      => array(
-                'multiColumnEditor' => array(
+            'eval'      => [
+                'multiColumnEditor' => [
                     'class'  => 'entity-filter',
                     'fields' => $GLOBALS['TL_DCA']['tl_entity_filter']['fields'],
                     'table'  => $strChildTable,
-                ),
-            ),
+                ],
+            ],
             'sql'       => "blob NULL",
-        );
+        ];
     }
 
-    public static function addListToDca($strName, $strParentTable, $strFilterFieldname, $strChildTable, $arrFields = array())
+    public static function addListToDca($strName, $strParentTable, $strFilterFieldname, $strChildTable, $arrFields = [])
     {
         \Controller::loadDataContainer($strParentTable);
         $arrDca = &$GLOBALS['TL_DCA'][$strParentTable];
 
-        $arrDca['fields'][$strName] = array(
+        $arrDca['fields'][$strName] = [
             'label'     => &$GLOBALS['TL_LANG'][$strParentTable][$strName],
             'exclude'   => true,
             'inputType' => 'listWidget',
-            'eval'      => array(
-                'listWidget' => array(
-                    'items_callback'        => array('HeimrichHannot\EntityFilter\Backend\EntityFilter', 'getItemsForDca'),
-                    'headerFields_callback' => array('HeimrichHannot\EntityFilter\Backend\EntityFilter', 'getHeaderFields'),
+            'eval'      => [
+                'listWidget' => [
+                    'items_callback'        => ['HeimrichHannot\EntityFilter\Backend\EntityFilter', 'getItemsForDca'],
+                    'header_fields_callback' => ['HeimrichHannot\EntityFilter\Backend\EntityFilter', 'getHeaderFields'],
                     'filterField'           => $strFilterFieldname,
                     'fields'                => $arrFields,
                     'table'                 => $strChildTable,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     public static function addFilterCopierToDca(
@@ -63,22 +63,22 @@ class EntityFilter extends \Backend
         $strParentTable,
         $strFieldTable,
         $strFieldname,
-        $arrOptionsCallback = array('HeimrichHannot\FieldValueCopier\Backend\FieldValueCopier', 'getOptions')
+        $arrOptionsCallback = ['HeimrichHannot\FieldValueCopier\Backend\FieldValueCopier', 'getOptions']
     ) {
         \Controller::loadDataContainer($strParentTable);
         $arrDca = &$GLOBALS['TL_DCA'][$strParentTable];
 
-        $arrDca['fields'][$strName] = array(
+        $arrDca['fields'][$strName] = [
             'exclude'   => true,
             'inputType' => 'fieldValueCopier',
-            'eval'      => array(
-                'fieldValueCopier' => array(
+            'eval'      => [
+                'fieldValueCopier' => [
                     'table'            => $strFieldTable,
                     'field'            => $strFieldname,
                     'options_callback' => $arrOptionsCallback,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     public static function getItemsForDca(\DataContainer $objDc)
@@ -90,7 +90,7 @@ class EntityFilter extends \Backend
     {
         if (!$strTable || !$strField)
         {
-            return array();
+            return [];
         }
 
         \Controller::loadDataContainer($strTable);
@@ -118,7 +118,7 @@ class EntityFilter extends \Backend
             );
 
             // get items
-            $arrItems = array();
+            $arrItems = [];
 
             try
             {
@@ -183,7 +183,7 @@ class EntityFilter extends \Backend
     {
         if (!($strTable = $objDc->table) || !($strField = $objDc->field))
         {
-            return array();
+            return [];
         }
 
         \Controller::loadDataContainer($strTable);
@@ -213,7 +213,7 @@ class EntityFilter extends \Backend
     {
         if (!($strTable = $objDc->table))
         {
-            return array();
+            return [];
         }
 
         \Controller::loadDataContainer($strTable);

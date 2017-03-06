@@ -14,7 +14,7 @@ class EntityFilter
     public static function computeSqlCondition(array $arrConditions)
     {
         $strCondition = '';
-        $arrValues = array();
+        $arrValues = [];
 
         // a condition can't start with a logical connective!
         if (isset($arrCondition[0]['connective']))
@@ -29,6 +29,6 @@ class EntityFilter
             $arrValues = array_merge($arrValues, $arrClauseValues);
         }
 
-        return array(trim($strCondition), $arrValues);
+        return [trim($strCondition), $arrValues];
     }
 }
