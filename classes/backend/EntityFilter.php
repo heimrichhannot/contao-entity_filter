@@ -125,7 +125,7 @@ class EntityFilter extends \Backend
                 $strQuery = $strQuery . ($strWhere ? ' WHERE ' . $strWhere : '');
 
                 $objItems = \Database::getInstance()->prepare($strQuery)->execute($arrValues);
-                if ($objItems !== null)
+                if ($objItems->numRows > 0)
                 {
                     while ($objItems->next())
                     {
