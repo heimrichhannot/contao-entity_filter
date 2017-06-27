@@ -49,7 +49,7 @@ class EntityFilter extends \Backend
             'eval'      => [
                 'listWidget' => [
                     'items_callback'        => ['HeimrichHannot\EntityFilter\Backend\EntityFilter', 'getItemsForDca'],
-                    'header_fields_callback' => ['HeimrichHannot\EntityFilter\Backend\EntityFilter', 'getHeaderFields'],
+                    'header_fields_callback' => ['HeimrichHannot\EntityFilter\Backend\EntityFilter', 'getHeaderFieldsForDca'],
                     'filterField'           => $strFilterFieldname,
                     'fields'                => $arrFields,
                     'table'                 => $strChildTable,
@@ -81,9 +81,14 @@ class EntityFilter extends \Backend
         ];
     }
 
-    public static function getItemsForDca(\DataContainer $objDc)
+    public static function getHeaderFieldsForDca($arrConfig, $objContext, $objDca)
     {
-        return static::getItems($objDc->table, $objDc->field, $objDc->activeRecord);
+        return static::getHeaderFields($objDca, $objContext);
+    }
+
+    public static function getItemsForDca($arrConfig, $objContext, $objDca)
+    {
+        return static::getItems($objDca->table, $objDca->field, $objDca->activeRecord);
     }
 
     public static function getItems($strTable, $strField, $objActiveRecord)
@@ -114,7 +119,8 @@ class EntityFilter extends \Backend
 
             $strQuery = 'SELECT ' . $strFields . ' FROM ' . $arrListDca['eval']['listWidget']['table'];
             list($strWhere, $arrValues) = \HeimrichHannot\EntityFilter\EntityFilter::computeSqlCondition(
-                deserialize($objActiveRecord->{$strFilter}, true)
+                deserialize($objActiveRecord->{$strFilter}, true),
+                $arrListDca['eval']['listWidget']['table']
             );
 
             // get items
@@ -135,7 +141,8 @@ class EntityFilter extends \Backend
             }
             catch (\Exception $objException)
             {
-                \Message::addError(sprintf($GLOBALS['TL_LANG']['MSC']['tl_entity_filter']['invalidSqlQuery'], $strQuery));
+                \Message::addError(sprintf($GLOBALS['TL_LANG']['MSC']['tl_entity_filter']['invalidSqlQuery'], $strQuery,
+                                           $objException->getMessage()));
             }
 
             return $arrItems;
@@ -165,7 +172,8 @@ class EntityFilter extends \Backend
 
             $strQuery = 'SELECT COUNT(*) AS count FROM ' . $arrListDca['eval']['listWidget']['table'];
             list($strWhere, $arrValues) = \HeimrichHannot\EntityFilter\EntityFilter::computeSqlCondition(
-                deserialize($objActiveRecord->{$strFilter}, true)
+                deserialize($objActiveRecord->{$strFilter}, true),
+                $arrListDca['eval']['listWidget']['table']
             );
 
             // get items
